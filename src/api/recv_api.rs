@@ -4,7 +4,7 @@ pub fn recv_filter() -> impl Filter<Extract = impl warp::Reply, Error = warp::Re
     let recv_base = warp::path("recv");
 
     let packet_ammount = recv_base
-        .and(warp::path("amount"))
+        .and(warp::path("ammount"))
         .and(warp::get())
         .and(warp::path::end())
         .and_then(handle_packet_ammount);
