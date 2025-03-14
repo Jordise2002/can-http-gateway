@@ -1,4 +1,3 @@
-use serde_json::json;
 use warp::Filter;
 
 pub fn recv_filter() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
@@ -19,7 +18,7 @@ pub fn recv_filter() -> impl Filter<Extract = impl warp::Reply, Error = warp::Re
 }
 
 async fn handle_packet_ammount() -> Result<warp::reply::Json, warp::Rejection> {
-    let packet_amount = serde_json::json!({"ammount": 1});
+    let packet_amount = serde_json::json!({"ammount": crate::can::size().await});
 
     let packet_amount = warp::reply::json(&packet_amount);
 
@@ -27,7 +26,9 @@ async fn handle_packet_ammount() -> Result<warp::reply::Json, warp::Rejection> {
 }
 
 async fn handle_packet_request(ammount: u32) -> Result<warp::reply::Json, warp::Rejection> {
-    let result = json!(1);
+    let result = crate::can::dequeue(ammount).await;
+
+    let result = serde_json::to_string_pretty(&result).unwrap();
 
     let result = warp::reply::json(&result);
 
