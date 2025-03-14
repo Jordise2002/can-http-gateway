@@ -1,3 +1,5 @@
+use can::CanMessage;
+use serde_json::to_string;
 use tokio::sync::mpsc;
 mod api;
 mod can;
@@ -8,8 +10,7 @@ async fn main() {
 
     tokio::spawn(can::can_perioic_task(rx));
 
-    
-    warp::serve(api::api_filter())
+    warp::serve(api::api_filter(tx))
         .run(([127, 0, 0, 1], 3030))
         .await;
 }

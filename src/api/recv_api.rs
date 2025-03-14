@@ -28,8 +28,6 @@ async fn handle_packet_ammount() -> Result<warp::reply::Json, warp::Rejection> {
 async fn handle_packet_request(ammount: u32) -> Result<warp::reply::Json, warp::Rejection> {
     let result = crate::can::dequeue(ammount).await;
 
-    let result = serde_json::to_string_pretty(&result).unwrap();
-
     let result = warp::reply::json(&result);
 
     Ok(result)
