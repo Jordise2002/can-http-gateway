@@ -5,7 +5,7 @@ pub use can_message::CanMessage;
 use futures_util::stream::StreamExt;
 pub use queue::{dequeue, enqueue, size};
 use socketcan::{tokio::CanSocket, CanFrame, CanId, EmbeddedFrame, Frame, SocketOptions};
-use tokio::{sync::mpsc::Receiver};
+use tokio::sync::mpsc::Receiver;
 
 pub async fn can_perioic_task(mut rx: Receiver<CanMessage>, interface: String) {
     let socket_rx = CanSocket::open(&interface);
