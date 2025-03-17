@@ -17,9 +17,7 @@ pub async fn can_perioic_task(mut rx: Receiver<CanMessage>, interface: String) {
         socket.unwrap()
     };
 
-    let recv_own_messages_result = socket.set_recv_own_msgs(false);
-
-    if recv_own_messages_result.is_err()  {
+    if  socket.set_recv_own_msgs(false).is_err()  {
         eprint!("Couldn't configure socketcan interface: {}", interface);
         std::process::exit(-1);
     }
