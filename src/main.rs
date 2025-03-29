@@ -9,7 +9,7 @@ struct Args {
     //Socketcan Interface's name
     interface: String,
     //TCP port used by the API
-    port: u32,
+    port: u16,
 }
 
 #[tokio::main]
@@ -21,6 +21,6 @@ async fn main() {
     tokio::spawn(can::can_perioic_task(rx, args.interface));
 
     warp::serve(api::api_filter(tx))
-        .run(([0, 0, 0, 0], 3030))
+        .run(([0, 0, 0, 0], args.port))
         .await;
 }
